@@ -1,8 +1,6 @@
 import DS from 'ember-data';
 import Ember from 'ember';
 
-Ember.Inflector.inflector.uncountable('yql');
-
 export default DS.RESTAdapter.extend({
   host: 'https://query.yahooapis.com',
   namespace: 'v1/public',

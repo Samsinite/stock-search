@@ -2,6 +2,15 @@ import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
   primaryKey: 'Date',
+  
+  keyForAttribute: function(attr) {
+    var keyName = attr.underscore().split('_').map(function(keyName) {
+      return keyName.capitalize();
+    }).join('_');
+    
+    return keyName;
+  },
+  
   extractMeta: function(store, type, payload) {
     var meta = {};
     
@@ -15,6 +24,7 @@ export default DS.RESTSerializer.extend({
     delete payload.create;
     delete payload.lang;
   },
+  
   extractArray: function(store, type, payload, requestType) {
     var modifiedPayload = {},
     inflector = Ember.Inflector.inflector,

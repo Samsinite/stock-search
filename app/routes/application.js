@@ -6,7 +6,7 @@ export default Ember.Route.extend({
         env = 'http://datatables.org/alltables.env',
         format = 'json';
     
-    return this.store.find('yql', { q: q, env: env, format: format});
+    return this.store.find('quote', { q: q, env: env, format: format});
   },
   setupController: function(controller, model){
     console.log('\n\n\n\n', 'model:', model);
