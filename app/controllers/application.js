@@ -62,7 +62,7 @@ export default Ember.ObjectController.extend({
         format = 'json',
         controller = this;
         
-    this.store.findById('fundamental', { q: q, env: env, format: format}).then(function(data){
+    this.store.find('fundamental', { q: q, env: env, format: format}).then(function(data){
       console.log('fundamental data:', data);
       
       return controller.set('content.fundamental', data);
