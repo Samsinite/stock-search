@@ -1,6 +1,6 @@
 <h2 id='title'>Welcome to Ember.js</h2>
 {{# with content }}
-count: {{ meta.count }}
-
-{{outlet}}
+  count: {{ meta.count }}
+  
+    {{ x-chart dataset=dataset title="Sample Analytics" type="line" yAxisTitle='Temperature C' }}
 {{/ with }}
