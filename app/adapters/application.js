@@ -5,7 +5,7 @@ Ember.Inflector.inflector.uncountable('fundamental');
 
 export default DS.RESTAdapter.extend({
   host: 'https://query.yahooapis.com',
-  namespace: 'v1/public/',
+  namespace: 'v1/public',
   buildURL: function(type, id) {
     var url = [],
         host = Ember.get(this, 'host'),
