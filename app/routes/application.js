@@ -1,15 +1,18 @@
 import Ember from 'ember';
+import CompanyModel from 'stock-search/models/company';
 
 export default Ember.Route.extend({
   model: function(){
-    var q = 'select * from yahoo.finance.historicaldata where symbol in ("YHOO") and startDate = "2014-07-01" and endDate = "2014-07-15"',
-        env = 'http://datatables.org/alltables.env',
-        format = 'json';
+    var companyModel = CompanyModel.extend({
+      content: {
+        quote: null,
+        fundamental: null
+      }
+    });
     
-    return this.store.find('quote', { q: q, env: env, format: format});
+    return this.store.createRecord(companyModel);
   },
   setupController: function(controller, model){
-    console.log('\n\n\n\n', 'model:', model);
     controller.set('model', model);
   }
 });

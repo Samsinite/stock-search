@@ -3,12 +3,21 @@ import Ember from 'ember';
 import ApplicationSerializer from 'stock-search/serializers/application';
 
 export default ApplicationSerializer.extend({
-  primaryKey: 'Date',
+  primaryKey: 'Symbol',
   
   keyForAttribute: function(attr) {
-    var keyName = attr.underscore().split('_').map(function(keyName) {
-      return keyName.capitalize();
-    }).join('_');
+  
+    var keyName = attr.capitalize().replace('_', '');
+    
+    if ( keyName.match(/^EPS/) ) {
+      keyName.replace('EPS', 'eps');
+    } else if ( keyName.match(/^PEG/) ) {
+      keyName.replace('peg');
+    } else if ( keyname.match(/^PE/) ) {
+      keyName.replace('pe');
+    } else if (keyname.match(/EBITDA/)){
+      keyName.replace('ebitda');
+    }
     
     return keyName;
   },
@@ -31,8 +40,9 @@ export default ApplicationSerializer.extend({
     var modifiedPayload = {},
         inflector = Ember.Inflector.inflector,
         data = payload.query.results.quote || [];
-    
-    modifiedPayload[inflector.pluralize(type.typeKey)] = data;
+        
+    modifiedPayload[type.typeKey] = data;
     return this._super(store, type, modifiedPayload, requestType);
-  }
+  },
+  
 });

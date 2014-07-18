@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "moment": "~2.7.0",
-    "d3": "~3.4.10"
+    "highcharts": "~4.0.3",
+    "highstock-release": "~2.0.3"
   }
 }

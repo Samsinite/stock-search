@@ -2,7 +2,10 @@
   "predef": {
     "document": true,
     "window": true,
-    "StockSearchENV": true
+    "StockSearchENV": true,
+    "Highcharts": true,
+    "$": true,
+    "moment": true
   },
   "browser" : true,
   "boss" : true,

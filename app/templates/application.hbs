@@ -1,6 +1,10 @@
-<h2 id='title'>Welcome to Ember.js</h2>
-{{# with content }}
-  count: {{ meta.count }}
+<h2 id='title'>Stock Search</h2>
+<form id="stock_search_form" {{ action 'queryYQL' on='submit' }}>
+{{ input type="search" value=stockSymbolInput }}
+</form>
+
+{{# with model }}
+  count: {{ quote.meta.count }}
   
-    {{ x-chart dataset=dataset title="Sample Analytics" type="line" yAxisTitle='Temperature C' }}
+  {{ x-chart chartConfigs=controller.chartConfigs chartData=controller.chartData }}
 {{/ with }}

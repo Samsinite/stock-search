@@ -1,55 +1,46 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName : 'x-chart',
+  id: 'container',
+  tagName : 'div',
   classNames: ['highcharts'],
-  chartConfig: Ember.Object.extend({}),
   
-  setConfig: function(type){
-    var config = Ember.Object.extend({
-      chart: {
-        type: type
+  initializeChart: function(){
+    var elementId = ['#', this.get('elementId')].join(''),
+        chartConfigs =  this.get('controller').get('chartConfigs');
+        
+    console.log('this:', this, 'chartConfigs', chartConfigs);
+        
+    Ember.$(elementId).highcharts('StockChart', {
+      rangeSelector: {
+        enabled: false
       },
       title: {
-        text: this.get('title')
+        text: chartConfigs.get('title.text')
       },
-      xAxis: {
-        categories: this.get('dataset.categories') || []
-      },
-      yAxis: {
-        title: {
-          text: this.get('yAxisTitle')
+      series: [{
+        name: chartConfigs.series.name,
+        data: this.get('chartData'),
+        tooltip: {
+          valueDecimals: 2
         }
-      },
-      series: this.series()
+      }]
     });
     
-    if (this.get('highChartConfig')) {
-      Ember.merge(config, this.get('highChartConfig'));
-    }
     
-    this.set('chartConfig', config);
-  },
+    console.log('Is this right?', $(elementId).find('.highcharts-button'));
+    $(elementId).find('.highcharts-button').click(function(){
+      var chart = $(elementId).highcharts();
+    });
+  }.on('didInsertElement'),
+  updateChart: function(){
+    this.initializeChart();
+    
+    var elementId = ['#', this.get('elementId')].join(''),
+        chart = Ember.$(elementId).highcharts(),
+        newData = this.get('chartData');
+        
+    chart.series[0].setData(newData, true);
+  }.observes('chartData')
   
-  series: function(){
-    this.get('dataset.data')
-  },
-  
-  prepareConfig: function() {
-    var type;
-    if (this.get('customHighChartConfig')) {
-      this.set('chartConfig', this.get('customHighChartConfig'));
-    } else {
-      type = this.get('type') || 'line';
-      this.setConfig(type);
-    }
-  },
-  
-  didInsertElement: function() {
-    this.prepareConfig();
-    this.renderHighchart();
-  },
-  renderHighchart: function() {
-    this.$().highcharts('StockChart', this.get('chartConfig'));
-  }
 });
