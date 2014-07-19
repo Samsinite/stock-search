@@ -12,6 +12,7 @@ export default Ember.Route.extend({
     
     return this.store.createRecord(companyModel);
   },
+  
   setupController: function(controller, model){
     controller.set('model', model);
   }

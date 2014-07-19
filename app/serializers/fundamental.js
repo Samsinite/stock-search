@@ -3,19 +3,18 @@ import Ember from 'ember';
 import ApplicationSerializer from 'stock-search/serializers/application';
 
 export default ApplicationSerializer.extend({
-  primaryKey: 'Symbol',
+  primaryKey: 'symbol',
   
   keyForAttribute: function(attr) {
-  
     var keyName = attr.capitalize().replace('_', '');
     
     if ( keyName.match(/^EPS/) ) {
       keyName.replace('EPS', 'eps');
     } else if ( keyName.match(/^PEG/) ) {
       keyName.replace('peg');
-    } else if ( keyname.match(/^PE/) ) {
+    } else if ( keyName.match(/^PE/) ) {
       keyName.replace('pe');
-    } else if (keyname.match(/EBITDA/)){
+    } else if (keyName.match(/EBITDA/)){
       keyName.replace('ebitda');
     }
     
@@ -35,14 +34,21 @@ export default ApplicationSerializer.extend({
     delete payload.create;
     delete payload.lang;
   },
+
+  extractSingle: function(store, primaryType, payload, recordId) {
+    var modifiedPayload = {};
+    modifiedPayload[primaryType.typeKey] = payload.query.results.quote;
+
+    return this._super(store, primaryType, modifiedPayload, recordId);
+  }
   
-  extractArray: function(store, type, payload, requestType) {
-    var modifiedPayload = {},
-        inflector = Ember.Inflector.inflector,
-        data = payload.query.results.quote || [];
+  // extractArray: function(store, type, payload, requestType) {
+  //   var modifiedPayload = {},
+  //       inflector = Ember.Inflector.inflector,
+  //       data = [payload.query.results.quote] || [];
         
-    modifiedPayload[type.typeKey] = data;
-    return this._super(store, type, modifiedPayload, requestType);
-  },
+  //   modifiedPayload[type.typeKey] = data;
+  //   return this._super(store, type, modifiedPayload, requestType);
+  // },
   
 });
