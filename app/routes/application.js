@@ -3,14 +3,7 @@ import CompanyModel from 'stock-search/models/company';
 
 export default Ember.Route.extend({
   model: function(){
-    var companyModel = CompanyModel.extend({
-      content: {
-        quote: null,
-        fundamental: null
-      }
-    });
-    
-    return this.store.createRecord(companyModel);
+    return this.store.createRecord(CompanyModel);
   },
   setupController: function(controller, model){
     controller.set('model', model);

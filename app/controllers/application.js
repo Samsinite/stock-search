@@ -57,12 +57,9 @@ export default Ember.ObjectController.extend({
   },
   
   queryCompanyFundamentalData: function(){
-    var q = 'select * from yahoo.finance.quotes where symbol in ("' + this.get('stockSymbolInput') + '")',
-        env = 'http://datatables.org/alltables.env',
-        format = 'json',
-        controller = this;
+    var controller = this;
         
-    this.store.find('fundamental', { q: q, env: env, format: format}).then(function(data){
+    this.store.find('fundamental', this.get('stockSymbolInput')).then(function(data){
       console.log('fundamental data:', data);
       
       return controller.set('content.fundamental', data);
