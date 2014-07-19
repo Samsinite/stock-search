@@ -57,12 +57,23 @@ export default Ember.ObjectController.extend({
   },
   
   queryCompanyFundamentalData: function(){
-    var controller = this;
+    // var q = 'select * from yahoo.finance.quotes where symbol in ("' + this.get('stockSymbolInput') + '")',
+    //     env = 'http://datatables.org/alltables.env',
+    //     format = 'json',
+    //     controller = this;
         
+    // this.store.find('fundamental', { q: q, env: env, format: format}).then(function(data){
+    //   console.log('fundamental data:', data);
+      
+    //   return controller.set('content.fundamental', data);
+    // });
+
+    var self = this;
+    
     this.store.find('fundamental', this.get('stockSymbolInput')).then(function(data){
       console.log('fundamental data:', data);
       
-      return controller.set('content.fundamental', data);
+      return self.set('content.fundamental', data);
     });
   },
   
