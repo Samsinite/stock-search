@@ -11,7 +11,7 @@ export default DS.Model.extend({
   askRealtime: attr(),
   bidRealtime: attr(),
   bookValue: attr(),
-  bhange_PercentChange: attr(),
+  change_PercentChange: attr(),
   change: attr(),
   commission: attr(),
   currency: attr(),

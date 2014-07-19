@@ -7,18 +7,20 @@ export default ApplicationSerializer.extend({
   primaryKey: 'Symbol',
   
   keyForAttribute: function(attr) {
-    var keyName = attr.capitalize().replace('_', '');
+    var keyName = attr.camelize();
 
-    if ( keyName.match(/^EPS/) ) {
-      keyName.replace('EPS', 'eps');
-    } else if ( keyName.match(/^PEG/) ) {
-      keyName.replace('peg');
-    } else if ( keyName.match(/^PE/) ) {
-      keyName.replace('pe');
-    } else if (keyName.match(/EBITDA/)){
-      keyName.replace('ebitda');
+    if ( keyName.match(/^eps/) ) {
+      keyName.replace('eps', 'EPS');
+    } else if ( keyName.match(/^peg/) ) {
+      keyName.replace('PEG');
+    } else if ( keyName.match(/^peR/) ) {
+      keyName.replace('PER');
+    } else if ( keyName.match(/ebitda/) ) {
+      keyName.replace('EBITDA');
+    } else if ( keyName.match(/changePercentChange/) ) {
+      keyName.replace('Change_PercentChange');
     }
-
+    
     return keyName;
   },
 
