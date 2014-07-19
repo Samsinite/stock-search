@@ -7,7 +7,7 @@ export default ApplicationSerializer.extend({
   primaryKey: 'Symbol',
   
   keyForAttribute: function(attr) {
-    var keyName = attr.camelize();
+    var keyName = attr;
 
     if ( keyName.match(/^eps/) ) {
       keyName.replace('eps', 'EPS');
@@ -20,6 +20,8 @@ export default ApplicationSerializer.extend({
     } else if ( keyName.match(/changePercentChange/) ) {
       keyName.replace('Change_PercentChange');
     }
+    
+    keyName.capitalize();
     
     return keyName;
   },
