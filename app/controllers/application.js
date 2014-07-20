@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 var chartConfigs = Ember.Object.extend({
   title : {
-      text : 'AAPL Stock Price'
+      text : 'Stock Search'
     },
   series : [
     {
@@ -16,71 +16,58 @@ var chartConfigs = Ember.Object.extend({
 });
 
 export default Ember.ObjectController.extend({
+  chart: Ember.computed.alias('content.instance'),
+  company: Ember.Object.extend(),
   chartData: null,
-  stockSymbolInput: null,
-  startDate: moment(new Date()).subtract(1, 'year').format('YYYY-MM-DD'),
+  stockSymbolSearch: null,
+  startDate: moment(new Date()).subtract(1, 'month').format('YYYY-MM-DD'),
   endDate: moment(new Date()).format('YYYY-MM-DD'),
   
-  formatChartData: function(){
-    var quotes = this.get('content.quote.content'),
+  /*
+createSeries: function(){
+    var history = this.get('content.history.content'),
         formattedData = [];
     
-    if (quotes)  {
-      quotes.forEach(function(data){
+    if (history)  {
+      history.forEach(function(data){
         var quote = [];
         
-        quote.push(data.get('id'));
+        quote.push(moment(data.get('id')).format('X'));
         quote.push(parseFloat(data.get('adjClose')));
         
         formattedData.push(quote);
       });
       
-      console.log('formattedData');
       this.set('chartData', formattedData.reverse());
     }
     
-  }.observes('content.quote.content'),
+  }.observes('content.history.content'),
+*/
   
   chartConfigs: chartConfigs.create(),
   
-  queryCompanyHistoricalData: function(){
-    var q = 'select * from yahoo.finance.historicaldata where symbol in ("' + this.get('stockSymbolInput') + '") and startDate = "' + this.get('startDate') + '" and endDate ="' + this.get('endDate') + '"',
-        env = 'http://datatables.org/alltables.env',
-        format = 'json',
-        controller = this;
-    
-    this.store.find('quote', { q: q, env: env, format: format}).then(function(data){
-      console.log('data:', data);
-      return controller.set('content.quote', data);
-    });
-        
-  },
-  
-  queryCompanyFundamentalData: function(){
-    // var q = 'select * from yahoo.finance.quotes where symbol in ("' + this.get('stockSymbolInput') + '")',
-    //     env = 'http://datatables.org/alltables.env',
-    //     format = 'json',
-    //     controller = this;
-        
-    // this.store.find('fundamental', { q: q, env: env, format: format}).then(function(data){
-    //   console.log('fundamental data:', data);
+  createCompany: function(params){
+    var controller = this,
+      companies = controller.get('content.companies'),
+      company = controller.store.createRecord('company', {
+        history: controller.store.find('history', params), 
+        fundamental: controller.store.find('fundamental', params.symbol)
+      });
       
-    //   return controller.set('content.fundamental', data);
-    // });
-
-    var self = this;
-    
-    this.store.find('fundamental', this.get('stockSymbolInput')).then(function(data){
-      console.log('fundamental data:', data);
-      
-      return self.set('content.fundamental', data);
-    });
+      return companies.addObject(company);
   },
   
   actions: {
     queryYQL: function(){
-      this.queryCompanyHistoricalData();
-      this.queryCompanyFundamentalData();
+      var params = {},
+          controller = this,
+          company;
+          
+      params.startDate = this.get('startDate');
+      params.endDate = this.get('endDate');
+      params.symbol = this.get('stockSymbolSearch');
+        
+      this.createCompany(params);
     }
   }
 });

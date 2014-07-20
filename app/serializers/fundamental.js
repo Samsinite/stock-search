@@ -10,20 +10,18 @@ export default ApplicationSerializer.extend({
     var keyName = attr;
 
     if ( keyName.match(/^eps/) ) {
-      keyName.replace('eps', 'EPS');
+      return keyName.replace('eps', 'EPS');
     } else if ( keyName.match(/^peg/) ) {
-      keyName.replace('PEG');
+      return keyName.replace('peg', 'PEG');
     } else if ( keyName.match(/^peR/) ) {
-      keyName.replace('PER');
-    } else if ( keyName.match(/ebitda/) ) {
-      keyName.replace('EBITDA');
-    } else if ( keyName.match(/changePercentChange/) ) {
-      keyName.replace('Change_PercentChange');
+      return keyName.replace('peR', 'PER');
+    } else if ( keyName === 'ebitda') {
+      return 'EBITDA';
+    } else if ( keyName === 'changePercentChange') {
+      return 'Change_PercentChange';
     }
     
-    keyName.capitalize();
-    
-    return keyName;
+    return keyName.capitalize();
   },
 
   extractMeta: function(store, type, payload) {
@@ -47,12 +45,4 @@ export default ApplicationSerializer.extend({
     return this._super(store, primaryType, modifiedPayload, recordId);
   }
   
-  // extractArray: function(store, type, payload, requestType) {
-  //   var modifiedPayload = {},
-  //       inflector = Ember.Inflector.inflector,
-  //       data = [payload.query.results.quote] || [];
-        
-  //   modifiedPayload[type.typeKey] = data;
-  //   return this._super(store, type, modifiedPayload, requestType);
-  // }
 });

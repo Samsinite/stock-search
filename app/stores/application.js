@@ -1,15 +1,12 @@
-export default DS.Store.extend({
-	find: function(type, id) {
-		if (type === "fundamental" && Ember.typeOf(id) === "string") {
-			return this.findById(type, id);
-		}
-		else {
-			return this._super.apply(this, arguments);
-		}
-	},
+import DS from 'ember-data';
+import Ember from 'ember';
 
-	// push: function(type, data, _partial) {
-	// 	if (type === "fundamental") { debugger; }
-	// 	this._super.apply(this, arguments);
-	// }
+export default DS.Store.extend({
+  find: function(type, id) {
+    if (type === "fundamental" && Ember.typeOf(id) === "string") {
+      return this.findById(type, id);
+    } else {
+      return this._super.apply(this, arguments);
+    }
+  }
 });

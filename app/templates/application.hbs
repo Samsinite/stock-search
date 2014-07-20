@@ -1,10 +1,10 @@
 <h2 id='title'>Stock Search</h2>
 <form id="stock_search_form" {{ action 'queryYQL' on='submit' }}>
-{{ input type="search" value=stockSymbolInput }}
+{{ input type="search" value=stockSymbolSearch }}
 </form>
 
 {{# with model }}
-  count: {{ quote.meta.count }}
+  count: {{ history.meta.count }}
   
   {{ x-chart chartConfigs=controller.chartConfigs chartData=controller.chartData }}
 {{/ with }}

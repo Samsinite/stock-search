@@ -3,7 +3,7 @@ import ApplicationAdapter from 'stock-search/adapters/application';
 
 export default ApplicationAdapter.extend({
   pathForType: function(){
-    return 'yql'
+    return 'yql';
   },
 
   find: function(store, type, id) {

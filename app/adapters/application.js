@@ -2,6 +2,8 @@ import DS from 'ember-data';
 import Ember from 'ember';
 
 Ember.Inflector.inflector.uncountable('fundamental');
+Ember.Inflector.inflector.uncountable('series');
+Ember.Inflector.inflector.uncountable('history');
 
 export default DS.RESTAdapter.extend({
   host: 'https://query.yahooapis.com',
